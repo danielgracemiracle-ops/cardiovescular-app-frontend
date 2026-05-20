@@ -44,7 +44,11 @@ export function PredictionResultDisplay({ result, onSave, onClose }: Props) {
   const theme = RISK_THEME[riskLevel]
 
   const RiskIcon =
-    result.riskLevel === 'low' ? CheckCircle : result.riskLevel === 'medium' ? AlertTriangle : Heart
+    riskLevel === 'low'
+    ? CheckCircle
+    : riskLevel === 'medium'
+    ? AlertTriangle
+    : Heart
 
   const chartData = (result?.featureImportance || [])
   .slice(0, 7)

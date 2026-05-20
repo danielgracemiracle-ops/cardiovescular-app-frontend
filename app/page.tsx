@@ -63,7 +63,9 @@ export default function HomePage() {
     setHistory((prev) => [
       {
         id: result.id,
-        date: result.timestamp.toISOString(),
+        date: result.timestamp
+          ? new Date(result.timestamp).toISOString()
+          : new Date().toISOString(),
         riskLevel: result.riskLevel,
         riskPercentage: result.riskPercentage,
         healthData: result.healthData,
