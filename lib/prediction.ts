@@ -1,7 +1,13 @@
 import type {
   HealthData,
   PredictionResult,
+  RiskFactor,
+  RiskLevel,
 } from './types'
+
+function generateId(): string {
+  return `pred_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+}
 
 function healthDataToModelInput(data: HealthData): number[] {
   const cholesterolMap = {
@@ -33,23 +39,45 @@ function healthDataToModelInput(data: HealthData): number[] {
 
 export async function predictCardiovascularRisk(
   data: HealthData
-): Promise<any> {
+): Promise<PredictionResult> {
 
   const modelInput = healthDataToModelInput(data)
 
-  const response = await fetch('/api/predict', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      data: modelInput
-    }),
-  })
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/predict`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        data: modelInput,
+      }),
+    }
+  )
 
   if (!response.ok) {
     throw new Error('Prediction failed')
   }
 
-  return response.json()
+  const result = await response.json()
+
+  const featureImportance: RiskFactor[] =
+    (result.risk_factors || []).map((factor: any) => ({
+      feature: factor.feature,
+      importance: factor.importance,
+      status: factor.status,
+    }))
+
+  return {
+    id: generateId(),
+    timestamp: new Date(),
+    prediction: result.prediction,
+    confidence: result.confidence,
+    riskPercentage: result.risk_percentage,
+    riskLevel: result.risk_level.toLowerCase() as RiskLevel,
+    featureImportance,
+    recommendations: result.recommendations || [],
+    healthData: data,
+  }
 }
