@@ -89,15 +89,8 @@ export function PredictionResultDisplay({ result, onSave, onClose }: Props) {
                   textColor: theme.color,
                   pathColor: theme.color,
                   trailColor: '#e5e7eb',
-                  textSize: '16px',
-
                   textSize: '18px',
                   pathTransitionDuration: 1.5,
-
-                  textWeight: '700',
-
-                  transform: 'rotate(0turn)',
-                  transformOrigin: 'center center',
                 })}
               />
             </div>
