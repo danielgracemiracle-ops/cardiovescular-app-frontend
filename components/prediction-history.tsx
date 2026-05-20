@@ -26,7 +26,7 @@ const RISK_LABEL: Record<RiskLevel, string> = {
 export function PredictionHistory({ history, onClear, onSelectEntry }: Props) {
   if (history.length === 0) {
     return (
-      <Card className="sticky top-24">
+      <Card className="glass-card hover-lift">
         <CardHeader>
           <div className="flex items-center gap-2">
             <History className="h-5 w-5 text-primary" />
@@ -48,7 +48,7 @@ export function PredictionHistory({ history, onClear, onSelectEntry }: Props) {
   }
 
   return (
-    <Card className="sticky top-24">
+    <Card className="glass-card hover-lift">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">

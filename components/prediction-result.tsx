@@ -1,5 +1,7 @@
 'use client'
 
+import 'react-circular-progressbar/dist/styles.css'
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
 import { Heart, TrendingUp, AlertTriangle, CheckCircle, Lightbulb, Save, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -61,7 +63,7 @@ export function PredictionResultDisplay({ result, onSave, onClose }: Props) {
   return (
     <div className="space-y-5 animate-fade-in">
       {/* Main Risk Card */}
-      <Card className="overflow-hidden border-2" style={{ borderColor: theme.color }}>
+      <Card className="glass-card soft-glow hover-lift overflow-hidden border-2 shadow-2xl">
         <CardHeader className={`text-center ${theme.bgClass}`}>
           <div className="flex justify-center mb-3">
             <div
@@ -78,11 +80,31 @@ export function PredictionResultDisplay({ result, onSave, onClose }: Props) {
         </CardHeader>
 
         <CardContent className="pt-6">
-          <div className="text-center mb-6">
-            <div className="text-6xl font-bold mb-2" style={{ color: theme.color }}>
-              {result.riskPercentage}%
+          <div className="flex flex-col items-center justify-center mb-6">
+            <div className="w-44 h-44 mb-4">
+              <CircularProgressbar
+                value={result.riskPercentage}
+                text={`${Math.round(result.riskPercentage)}%`}
+                styles={buildStyles({
+                  textColor: theme.color,
+                  pathColor: theme.color,
+                  trailColor: '#e5e7eb',
+                  textSize: '16px',
+
+                  textSize: '18px',
+                  pathTransitionDuration: 1.5,
+
+                  textWeight: '700',
+
+                  transform: 'rotate(0turn)',
+                  transformOrigin: 'center center',
+                })}
+              />
             </div>
-            <p className="text-sm text-muted-foreground">Risk Probability</p>
+              
+            <p className="text-sm text-muted-foreground">
+              Risk Probability
+            </p>
           </div>
 
           {/* Risk Bar */}
@@ -118,24 +140,52 @@ export function PredictionResultDisplay({ result, onSave, onClose }: Props) {
         <CardContent>
           <div style={{ width: '100%', height: 280 }}>
             <ResponsiveContainer>
-              <BarChart data={chartData} layout="vertical" margin={{ left: 0, right: 20, top: 5, bottom: 5 }}>
-                <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 11 }} />
-                <YAxis dataKey="name" type="category" width={100} tick={{ fontSize: 12 }} />
-                <Tooltip
-                  formatter={(v: number) => [`${v}%`, 'Contribution']}
-                  contentStyle={{
-                    backgroundColor: 'var(--card)',
-                    border: '1px solid var(--border)',
-                    borderRadius: '8px',
-                  }}
-                />
-                <Bar dataKey="value" radius={[0, 6, 6, 0]}>
+             <BarChart
+               data={chartData}
+               layout="vertical"
+               margin={{ left: 0, right: 20, top: 5, bottom: 5 }}
+             >
+           
+               <defs>
+                 <linearGradient id="colorRisk" x1="0" y1="0" x2="1" y2="0">
+                   <stop offset="0%" stopColor="#10b981" />
+                   <stop offset="100%" stopColor="#06b6d4" />
+                 </linearGradient>
+               </defs>
+           
+               <XAxis
+                 type="number"
+                 domain={[0, 100]}
+                 tick={{ fontSize: 11 }}
+               />
+           
+               <YAxis
+                 dataKey="name"
+                 type="category"
+                 width={100}
+                 tick={{ fontSize: 12 }}
+               />
+           
+               <Tooltip
+                 formatter={(v: number) => [`${v}%`, 'Contribution']}
+                 contentStyle={{
+                   backgroundColor: 'var(--card)',
+                   border: '1px solid var(--border)',
+                   borderRadius: '8px',
+                 }}
+               />
+           
+               <Bar dataKey="value" radius={[0, 6, 6, 0]}>
                   {chartData.map((entry, i) => (
-                    <Cell key={i} fill={STATUS_COLOR[entry.status]} />
+                    <Cell
+                      key={i}
+                      fill={STATUS_COLOR[entry.status]}
+                    />
                   ))}
                 </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+           
+             </BarChart>
+           </ResponsiveContainer>
           </div>
 
           {/* Legend */}

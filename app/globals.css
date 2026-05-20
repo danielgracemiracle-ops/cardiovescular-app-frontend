@@ -132,10 +132,81 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+
+    background:
+      radial-gradient(
+        circle at top left,
+        rgba(16,185,129,0.12),
+        transparent 28%
+      ),
+
+      radial-gradient(
+        circle at top right,
+        rgba(6,182,212,0.10),
+        transparent 30%
+      ),
+
+      radial-gradient(
+        circle at bottom left,
+        rgba(20,184,166,0.08),
+        transparent 35%
+      ),
+
+      linear-gradient(
+        180deg,
+        #f6fffc 0%,
+        #effaf7 45%,
+        #f4fbff 100%
+      );
+
+    min-height: 100vh;
+
+    background-attachment: fixed;
+
+    overflow-x: hidden;
+
+    position: relative;
+
+  }
+
+  body::before,
+  body::after {
+    content: '';
+
+    position: fixed;
+
+    width: 500px;
+    height: 500px;
+
+    border-radius: 999px;
+
+    filter: blur(120px);
+
+    z-index: -1;
+
+    opacity: 0.18;
+
+    pointer-events: none;
+  }
+
+  body::before {
+    top: -120px;
+    left: -120px;
+
+    background: #10b981;
+  }
+
+  body::after {
+    bottom: -120px;
+    right: -120px;
+
+    background: #06b6d4;
   }
 }
+
 
 /* Smooth animations */
 @keyframes fade-in {
@@ -154,4 +225,313 @@
 
 .animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* =========================================
+   GLASS EFFECT
+========================================= */
+
+.glass-card {
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255,255,255,0.25);
+
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.06);
+}
+
+
+/* =========================================
+   GRADIENT TEXT
+========================================= */
+
+.gradient-text {
+  background: linear-gradient(
+    135deg,
+    #10b981,
+    #06b6d4
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* =========================================
+   HOVER ANIMATIONS
+========================================= */
+
+.hover-lift {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 14px 30px rgba(0,0,0,0.08);
+}
+
+
+/* =========================================
+   SOFT GLOW
+========================================= */
+
+.soft-glow {
+  box-shadow:
+    0 0 40px rgba(16,185,129,0.15);
+}
+
+
+/* =========================================
+   SMOOTH SCROLL
+========================================= */
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+/* =========================================
+   CUSTOM SCROLLBAR
+========================================= */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(16,185,129,0.35);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(16,185,129,0.5);
+}
+
+@keyframes floatBlob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -40px) scale(1.08);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+/* =========================
+   FLOATING LIGHT EFFECT
+========================= */
+
+body::before,
+body::after {
+  content: '';
+
+  position: fixed;
+
+  width: 650px;
+  height: 650px;
+
+  border-radius: 999px;
+
+  z-index: 0;
+
+  pointer-events: none;
+
+  filter: blur(90px);
+
+  opacity: 0.55;
+}
+
+/* GREEN LIGHT */
+body::before {
+  top: -180px;
+  left: -180px;
+
+  background:
+  radial-gradient(
+    circle,
+    rgba(16,185,129,1) 0%,
+    rgba(16,185,129,0.8) 25%,
+    rgba(16,185,129,0.25) 55%,
+    transparent 75%
+  );
+
+  animation: floatGreen 10s ease-in-out infinite;
+}
+
+/* CYAN LIGHT */
+body::after {
+  bottom: -180px;
+  right: -180px;
+
+  background:
+  radial-gradient(
+    circle,
+    rgba(6,182,212,1) 0%,
+    rgba(6,182,212,0.8) 25%,
+    rgba(6,182,212,0.2) 55%,
+    transparent 75%
+  );
+
+  animation: floatBlue 12s ease-in-out infinite;
+}
+
+body .center-blob {
+  position: fixed;
+
+  width: 420px;
+  height: 420px;
+
+  top: 35%;
+  left: 45%;
+
+  border-radius: 999px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(20,184,166,0.8) 0%,
+      rgba(20,184,166,0.25) 50%,
+      transparent 75%
+    );
+
+  filter: blur(80px);
+
+  opacity: 0.6;
+
+  z-index: 0;
+
+  pointer-events: none;
+
+  animation: floatCenter 16s ease-in-out infinite;
+}
+
+@keyframes floatCenter {
+  0% {
+    transform: translate(0px, 0px);
+  }
+
+  50% {
+    transform: translate(-60px, 40px);
+  }
+
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+@keyframes floatGreen {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  25% {
+    transform: translate(90px, 40px) scale(1.12);
+  }
+
+  50% {
+    transform: translate(40px, 90px) scale(0.92);
+  }
+
+  75% {
+    transform: translate(-40px, 50px) scale(1.05);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+@keyframes floatBlue {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  25% {
+    transform: translate(-80px, -40px) scale(1.1);
+  }
+
+  50% {
+    transform: translate(-30px, -80px) scale(0.9);
+  }
+
+  75% {
+    transform: translate(50px, -20px) scale(1.04);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.blob {
+  position: fixed;
+  border-radius: 999px;
+  filter: blur(70px);
+  opacity: 0.9;
+  mix-blend-mode: multiply;
+  z-index: -1;
+  animation: floatBlob 18s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.blob-1 {
+  width: 500px;
+  height: 500px;
+  top: -120px;
+  left: -120px;
+  background: #10b981;
+}
+
+.blob-2 {
+  width: 450px;
+  height: 450px;
+  bottom: -100px;
+  right: -100px;
+  background: #06b6d4;
+  animation-delay: 4s;
+}
+
+.blob-3 {
+  width: 350px;
+  height: 350px;
+  top: 40%;
+  left: 40%;
+  background: #14b8a6;
+  animation-delay: 8s;
+}
+
+@keyframes floatBlob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  33% {
+    transform: translate(40px, -30px) scale(1.05);
+  }
+
+  66% {
+    transform: translate(-30px, 20px) scale(0.95);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
 }

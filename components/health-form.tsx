@@ -83,46 +83,80 @@ export function HealthForm({ onSubmit, isLoading }: HealthFormProps) {
       : 'text-risk-high'
 
   return (
-    <Card className="overflow-hidden animate-fade-in">
-      <CardHeader className="border-b border-border bg-primary/5">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2 bg-primary/10 rounded-full">
-            <HeartPulse className="h-5 w-5 text-primary" />
+    <Card className="glass-card hover-lift overflow-hidden animate-fade-in rounded-3xl">
+      <CardHeader className="border-b bg-gradient-to-r from-emerald-50 to-cyan-50 rounded-t-3xl pt-10 pb-10 px-8">
+
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-8">
+        
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg">
+            <HeartPulse className="h-7 w-7 text-white" />
           </div>
+        
           <div>
-            <CardTitle>Health Data</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-3xl font-bold">
+              Health Data
+            </CardTitle>
+        
+            <CardDescription className="text-base mt-1">
               Step {step} of {STEPS.length}: {STEPS[step - 1].desc}
             </CardDescription>
           </div>
         </div>
-
-        {/* Step indicator */}
-        <div className="flex items-center gap-2 mt-3">
-          {STEPS.map((s, i) => (
-            <div key={s.id} className="flex items-center gap-2 flex-1">
+        
+        {/* Progress Stepper */}
+        <div className="mt-10 px-10">
+          
+          <div className="relative flex justify-between items-center max-w-xl mx-auto">
+          
+            {/* Background Line */}
+            <div className="absolute top-6 left-[7%] right-[7%] h-1 bg-border rounded-full" />
+          
+            {/* Active Line */}
+            <div
+              className="absolute top-6 left-[7%] h-1 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 transition-all duration-500"
+              style={{
+                width:
+                  step === 1
+                    ? '0%'
+                    : step === 2
+                    ? '43%'
+                    : '86%',
+              }}
+            />
+        
+            {STEPS.map((s) => (
               <div
-                className={cn(
-                  'flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all',
-                  step > s.id
-                    ? 'bg-primary text-primary-foreground'
-                    : step === s.id
-                    ? 'bg-primary text-primary-foreground ring-4 ring-primary/20'
-                    : 'bg-muted text-muted-foreground'
-                )}
+                key={s.id}
+                className="relative z-10 flex flex-col items-center"
               >
-                {s.id}
-              </div>
-              {i < STEPS.length - 1 && (
+              
+                {/* Circle */}
                 <div
                   className={cn(
-                    'h-0.5 flex-1 transition-colors',
-                    step > s.id ? 'bg-primary' : 'bg-border'
+                    'w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg border-4 transition-all duration-300',
+                    step >= s.id
+                      ? 'bg-gradient-to-br from-emerald-500 to-cyan-500 text-white border-white shadow-xl scale-110'
+                      : 'bg-background text-muted-foreground border-border'
                   )}
-                />
-              )}
-            </div>
-          ))}
+                >
+                  {s.id}
+                </div>
+                
+                {/* Label */}
+                <span
+                  className={cn(
+                    'mt-3 text-sm font-medium text-center whitespace-nowrap',
+                    step >= s.id
+                      ? 'text-foreground'
+                      : 'text-muted-foreground'
+                  )}
+                >
+                  {s.title}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </CardHeader>
 

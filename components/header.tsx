@@ -1,6 +1,6 @@
 'use client'
 
-import { Heart, Info } from 'lucide-react'
+import { HeartPulse, Info } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -16,8 +16,8 @@ export function Header() {
     <header className="bg-card border-b border-border sticky top-0 z-40 backdrop-blur-sm bg-opacity-90">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-md">
-            <Heart className="h-5 w-5 text-primary-foreground" fill="currentColor" />
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center shadow-xl shadow-emerald-500/30">
+            <HeartPulse className="h-6 w-6 text-white" />
           </div>
           <div>
             <h1 className="text-lg font-bold text-foreground">CardioInsight</h1>
@@ -34,7 +34,7 @@ export function Header() {
           <DialogContent>
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <Heart className="h-5 w-5 text-secondary" />
+                <HeartPulse className="h-5 w-5 text-secondary" />
                 About CardioInsight
               </DialogTitle>
               <DialogDescription>

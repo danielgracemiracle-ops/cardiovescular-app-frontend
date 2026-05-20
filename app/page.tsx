@@ -103,7 +103,12 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen relative isolate bg-gradient-to-br from-slate-50 via-emerald-50 to-cyan-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-hidden">
+      <div className="center-blob" />
+      <div className="bg-blob" />
+      <div className="blob blob-1" />
+      <div className="blob blob-2" />
+      <div className="blob blob-3" />
       <Toaster position="top-center" richColors />
       <Header />
 
@@ -115,12 +120,16 @@ export default function HomePage() {
                 <Sparkles className="h-4 w-4" />
                 Powered by Machine Learning
               </div>
-              <h2 className="text-3xl md:text-5xl font-bold mb-4 text-balance text-foreground">
-                Know Your <span className="text-primary">Heart Disease</span> Risk
+              <h2 className="text-5xl md:text-7xl font-black tracking-tight leading-[1.1]">
+                Know Your{' '}
+                <span className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 bg-clip-text text-transparent">
+                  Heart Disease
+                </span>{' '}
+                Risk
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed text-balance">
-                Enter your health data and get instant cardiovascular disease risk prediction.
-                Early detection is the key to prevention.
+              <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                AI-powered cardiovascular risk analysis using machine learning
+                to help identify potential heart disease risks early.
               </p>
             </section>
 
@@ -172,15 +181,48 @@ export default function HomePage() {
         </div>
 
         {!showResult && (
-          <section className="mt-16">
-            <h3 className="text-2xl font-bold text-center mb-8 text-foreground">How It Works</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <StepCard step={1} title="Enter Data" desc="Fill in your health information" />
-              <StepCard step={2} title="ML Analysis" desc="Model processes and calculates risk" />
-              <StepCard step={3} title="Get Results" desc="View risk level & recommendations" />
-            </div>
-          </section>
-        )}
+  <section className="mt-20">
+    <div className="text-center mb-12">
+      <h3 className="text-4xl font-bold text-foreground">
+        How It Works
+      </h3>
+
+      <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
+        Simple 3-step cardiovascular risk prediction powered by machine learning
+      </p>
+    </div>
+
+    <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+      
+      {/* Line connector desktop */}
+      <div className="hidden md:block absolute top-1/2 left-[18%] right-[18%] h-1 bg-gradient-to-r from-emerald-400 to-cyan-400 -translate-y-1/2 rounded-full opacity-30" />
+
+      <div className="relative z-10">
+        <StepCard
+          step={1}
+          title="Enter Data"
+          desc="Fill in your health information"
+        />
+      </div>
+
+      <div className="relative z-10">
+        <StepCard
+          step={2}
+          title="ML Analysis"
+          desc="AI model analyzes your cardiovascular condition"
+        />
+      </div>
+
+      <div className="relative z-10">
+        <StepCard
+          step={3}
+          title="Get Results"
+          desc="Receive risk prediction & recommendations"
+        />
+      </div>
+    </div>
+  </section>
+)}
       </main>
 
       <footer className="border-t border-border mt-16 py-8">
@@ -198,7 +240,7 @@ export default function HomePage() {
 
 function FeatureCard({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
   return (
-    <div className="p-4 rounded-xl bg-card border border-border hover:border-primary/40 hover:shadow-sm transition-all">
+    <div className="p-4 rounded-xl bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 shadow-xl hover:border-primary/40 hover:shadow-sm transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1">
       <div className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 mb-2">
         {icon}
       </div>
@@ -208,19 +250,36 @@ function FeatureCard({ icon, title, desc }: { icon: React.ReactNode; title: stri
   )
 }
 
-function StepCard({ step, title, desc }: { step: number; title: string; desc: string }) {
+function StepCard({
+  step,
+  title,
+  desc,
+}: {
+  step: number
+  title: string
+  desc: string
+}) {
   return (
-    <div className="relative p-6 rounded-xl bg-card border border-border">
-      <div className="flex items-center gap-4 mb-3">
-        <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground font-bold flex items-center justify-center">
-          {step}
-        </div>
-        {step < 3 && (
-          <ArrowRight className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-        )}
+    <div className="group relative rounded-3xl border bg-card/80 backdrop-blur-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden">
+      
+      {/* Glow Effect */}
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+      {/* Step Number */}
+      <div className="relative z-10 w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-500 text-white flex items-center justify-center text-xl font-bold mb-6 shadow-lg">
+        {step}
       </div>
-      <h4 className="font-semibold mb-1 text-card-foreground">{title}</h4>
-      <p className="text-sm text-muted-foreground">{desc}</p>
+
+      {/* Content */}
+      <div className="relative z-10">
+        <h4 className="text-2xl font-semibold mb-3 text-foreground">
+          {title}
+        </h4>
+
+        <p className="text-muted-foreground leading-relaxed">
+          {desc}
+        </p>
+      </div>
     </div>
   )
 }
