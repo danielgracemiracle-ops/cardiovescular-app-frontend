@@ -19,7 +19,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(result)
   } catch (error) {
-    console.error('Prediction error:', error)
+    console.error(error)
 
     return NextResponse.json(
       { error: 'Prediction failed' },
