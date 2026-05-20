@@ -44,7 +44,9 @@ export function PredictionResultDisplay({ result, onSave, onClose }: Props) {
   const RiskIcon =
     result.riskLevel === 'low' ? CheckCircle : result.riskLevel === 'medium' ? AlertTriangle : Heart
 
-  const chartData = result.featureImportance.slice(0, 7).map((f) => ({
+  const chartData = (result?.featureImportance || [])
+  .slice(0, 7)
+  .map((f) => ({
     name: f.feature,
     value: f.importance,
     status: f.status,
@@ -152,7 +154,7 @@ export function PredictionResultDisplay({ result, onSave, onClose }: Props) {
         </CardHeader>
         <CardContent>
           <ul className="space-y-3">
-            {result.recommendations.map((rec, i) => (
+            {(result?.recommendations || []).map((rec, i) => (
               <li
                 key={i}
                 className="flex items-start gap-3 p-3 rounded-lg bg-primary/5"
