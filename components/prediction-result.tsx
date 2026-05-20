@@ -39,7 +39,9 @@ const STATUS_COLOR: Record<FactorStatus, string> = {
 }
 
 export function PredictionResultDisplay({ result, onSave, onClose }: Props) {
-  const theme = RISK_THEME[result.riskLevel]
+  const riskLevel = (result?.riskLevel || 'low').toLowerCase() as RiskLevel
+
+  const theme = RISK_THEME[riskLevel]
 
   const RiskIcon =
     result.riskLevel === 'low' ? CheckCircle : result.riskLevel === 'medium' ? AlertTriangle : Heart
