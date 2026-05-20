@@ -1,29 +1,22 @@
-import { NextResponse } from 'next/server'
+import type {
+  HealthData,
+  PredictionResult,
+} from './types'
 
-export async function POST(request: Request) {
-  try {
-    const body = await request.json()
+export async function predictCardiovascularRisk(
+  data: HealthData
+): Promise<PredictionResult> {
+  const response = await fetch('/api/predict', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/predict`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      }
-    )
-
-    const result = await response.json()
-
-    return NextResponse.json(result)
-  } catch (error) {
-    console.error('Prediction error:', error)
-
-    return NextResponse.json(
-      { error: 'Prediction failed' },
-      { status: 500 }
-    )
+  if (!response.ok) {
+    throw new Error('Prediction failed')
   }
+
+  return response.json()
 }
