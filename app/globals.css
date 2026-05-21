@@ -317,23 +317,6 @@ html {
   background: rgba(16,185,129,0.5);
 }
 
-@keyframes floatBlob {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-
-  33% {
-    transform: translate(30px, -40px) scale(1.08);
-  }
-
-  66% {
-    transform: translate(-20px, 20px) scale(0.95);
-  }
-
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-}
 
 /* =========================
    FLOATING LIGHT EFFECT
@@ -483,55 +466,166 @@ body .center-blob {
 
 .blob {
   position: fixed;
+
   border-radius: 999px;
-  filter: blur(70px);
-  opacity: 0.9;
+
+  filter: blur(90px);
+
+  opacity: 0.55;
+
   mix-blend-mode: multiply;
+
   z-index: -1;
-  animation: floatBlob 18s ease-in-out infinite;
+
   pointer-events: none;
+
+  will-change: transform;
+
+  animation-name: floatBlob;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }
 
 .blob-1 {
   width: 500px;
   height: 500px;
+
   top: -120px;
   left: -120px;
+
   background: #10b981;
+
+  animation-duration: 5s;
+  animation-delay: 0s;
 }
 
 .blob-2 {
   width: 450px;
   height: 450px;
+
   bottom: -100px;
   right: -100px;
+
   background: #06b6d4;
+
+  animation-duration: 5s;
   animation-delay: 4s;
 }
 
 .blob-3 {
   width: 350px;
   height: 350px;
+
   top: 40%;
   left: 40%;
+
   background: #14b8a6;
+
+  animation-duration: 5s;
   animation-delay: 8s;
 }
 
+
+/* FIX html2canvas OKLCH issue */
+#pdf-content,
+#pdf-content * {
+  color: #000 !important;
+  background-color: #fff !important;
+  border-color: #d1d5db !important;
+
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  filter: none !important;
+}
 @keyframes floatBlob {
   0% {
     transform: translate(0px, 0px) scale(1);
   }
 
-  33% {
-    transform: translate(40px, -30px) scale(1.05);
+  25% {
+    transform: translate(40px, -60px) scale(1.1);
   }
 
-  66% {
+  50% {
     transform: translate(-30px, 20px) scale(0.95);
+  }
+
+  75% {
+    transform: translate(20px, 40px) scale(1.05);
   }
 
   100% {
     transform: translate(0px, 0px) scale(1);
   }
+}
+
+/* =========================
+   FLOATING PARTICLES
+========================= */
+
+.particles {
+  position: absolute;
+  inset: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+.particle {
+  position: absolute;
+
+  width: 6px;
+  height: 6px;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.7);
+
+  box-shadow:
+    0 0 10px rgba(255,255,255,0.8),
+    0 0 20px rgba(16,185,129,0.4);
+
+  animation-name: floatParticle;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+  opacity: 0;
+}
+
+@keyframes floatParticle {
+  0% {
+    transform: translateY(0px) translateX(0px) scale(0.8);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: translateY(-120px) translateX(40px) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-240px) translateX(-60px) scale(0.7);
+    opacity: 0;
+  }
+}
+
+#tsparticles {
+  position: fixed !important;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+#tsparticles canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
 }

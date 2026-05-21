@@ -2,7 +2,8 @@
 
 import dynamic from 'next/dynamic'
 import { useState, useEffect } from 'react'
-import { Heart, Activity, Brain, Shield, Sparkles, ArrowRight } from 'lucide-react'
+import { AnimatedParticles } from '@/components/animated-particles'
+import { Heart, Activity, Brain, Shield, Sparkles, } from 'lucide-react'
 import { toast, Toaster } from 'sonner'
 
 import { Header } from '@/components/header'
@@ -27,7 +28,7 @@ export default function HomePage() {
   const [result, setResult] = useState<PredictionResult | null>(null)
   const [history, setHistory] = useState<HistoryEntry[]>([])
   const [showResult, setShowResult] = useState(false)
-
+  
   useEffect(() => {
     const saved = localStorage.getItem(HISTORY_KEY)
     if (saved) {
@@ -102,17 +103,22 @@ export default function HomePage() {
     }
   }
 
+
   return (
     <div className="min-h-screen relative isolate bg-gradient-to-br from-slate-50 via-emerald-50 to-cyan-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-hidden">
+      
+      <AnimatedParticles />
+      
       <div className="center-blob" />
       <div className="bg-blob" />
       <div className="blob blob-1" />
       <div className="blob blob-2" />
       <div className="blob blob-3" />
+      
       <Toaster position="top-center" richColors />
       <Header />
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="relative z-10 container mx-auto px-4 py-8">
         {!showResult && (
           <>
             <section className="text-center mb-10 animate-fade-in">
@@ -225,7 +231,7 @@ export default function HomePage() {
 )}
       </main>
 
-      <footer className="border-t border-border mt-16 py-8">
+      <footer className="relative z-10 border-t border-border mt-16 py-8">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
           <p className="mb-2 font-medium text-foreground">CardioInsight</p>
           <p className="text-xs leading-relaxed max-w-2xl mx-auto">

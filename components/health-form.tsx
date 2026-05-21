@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { InfoTooltip } from '@/components/info-tooltip'
 import {
   User, Activity, HeartPulse, ArrowRight, ArrowLeft, Loader2, RotateCcw,
 } from 'lucide-react'
@@ -38,6 +39,7 @@ const STEPS = [
 export function HealthForm({ onSubmit, isLoading }: HealthFormProps) {
   const [step, setStep] = useState(1)
   const [data, setData] = useState<HealthData>(INITIAL)
+  const [confirmed, setConfirmed] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
 
   const update = <K extends keyof HealthData>(key: K, value: HealthData[K]) => {
@@ -165,7 +167,14 @@ export function HealthForm({ onSubmit, isLoading }: HealthFormProps) {
           <div className="space-y-5 animate-fade-in">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="age">Age (years)</Label>
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="age">Age (years)</Label>
+                      
+                  <InfoTooltip
+                    text="Age is one of the strongest risk factors for cardiovascular disease. Risk generally increases as you get older."
+                  />
+                </div>
+
                 <Input
                   id="age"
                   type="number"
@@ -190,7 +199,14 @@ export function HealthForm({ onSubmit, isLoading }: HealthFormProps) {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="height">Height (cm)</Label>
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="height">Height (cm)</Label>
+
+                  <InfoTooltip
+                    text="Height is used together with weight to calculate Body Mass Index (BMI)."
+                  />
+                </div>
+
                 <Input
                   id="height"
                   type="number"
@@ -201,7 +217,14 @@ export function HealthForm({ onSubmit, isLoading }: HealthFormProps) {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="weight">Weight (kg)</Label>
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="weight">Weight (kg)</Label>
+
+                  <InfoTooltip
+                    text="Body weight is used to calculate BMI, which helps estimate obesity-related cardiovascular risk."
+                  />
+                </div>
+
                 <Input
                   id="weight"
                   type="number"
@@ -230,7 +253,14 @@ export function HealthForm({ onSubmit, isLoading }: HealthFormProps) {
           <div className="space-y-5 animate-fade-in">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="sys">Systolic BP (mmHg)</Label>
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="sys">Systolic BP (mmHg)</Label>
+
+                  <InfoTooltip
+                    text="Systolic blood pressure measures the pressure in your arteries when your heart beats."
+                  />
+                </div>
+
                 <Input
                   id="sys"
                   type="number"
@@ -243,7 +273,14 @@ export function HealthForm({ onSubmit, isLoading }: HealthFormProps) {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="dia">Diastolic BP (mmHg)</Label>
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="dia">Diastolic BP (mmHg)</Label>
+
+                  <InfoTooltip
+                    text="Diastolic blood pressure measures the pressure in your arteries when your heart rests between beats."
+                  />
+                </div>
+
                 <Input
                   id="dia"
                   type="number"
@@ -263,7 +300,14 @@ export function HealthForm({ onSubmit, isLoading }: HealthFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="chol">Cholesterol Level</Label>
+              <div className="flex items-center gap-2">
+                <Label htmlFor="chol">Cholesterol Level</Label>
+
+                <InfoTooltip
+                  text="Cholesterol is a fatty substance in your blood. High cholesterol can increase the risk of heart disease and stroke."
+                />
+              </div>
+
               <Select
                 id="chol"
                 value={data.cholesterol}
@@ -276,7 +320,14 @@ export function HealthForm({ onSubmit, isLoading }: HealthFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="gluc">Glucose Level</Label>
+              <div className="flex items-center gap-2">
+                <Label htmlFor="gluc">Glucose Level</Label>
+
+                <InfoTooltip
+                  text="Glucose refers to blood sugar levels. High glucose may indicate diabetes risk and cardiovascular complications."
+                />
+              </div>
+
               <Select
                 id="gluc"
                 value={data.glucose}
@@ -295,21 +346,108 @@ export function HealthForm({ onSubmit, isLoading }: HealthFormProps) {
             <ToggleRow
               label="Smoking"
               desc="Do you smoke?"
+              tooltip="Smoking damages blood vessels and significantly increases the risk of cardiovascular disease."
               checked={data.smoking}
               onChange={(v) => update('smoking', v)}
             />
             <ToggleRow
               label="Alcohol Consumption"
               desc="Do you consume alcohol?"
+              tooltip="Excessive alcohol consumption may increase blood pressure and heart disease risk."
               checked={data.alcohol}
               onChange={(v) => update('alcohol', v)}
             />
             <ToggleRow
               label="Physical Activity"
               desc="Do you exercise regularly?"
+              tooltip="Regular physical activity helps maintain healthy blood pressure, weight, and heart function."
               checked={data.physicalActivity}
               onChange={(v) => update('physicalActivity', v)}
             />
+            <div className="mt-6 p-5 rounded-2xl border border-border bg-muted/40 space-y-4">
+              <div>
+                <h3 className="text-lg font-semibold">
+                  Review Your Health Data
+                </h3>
+
+                <p className="text-sm text-muted-foreground">
+                  Please review your information before prediction.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 text-sm">
+
+                <SummaryItem label="Age" value={`${data.age} years`} />
+
+                <SummaryItem
+                  label="Gender"
+                  value={data.gender === 'male' ? 'Male' : 'Female'}
+                />
+
+                <SummaryItem
+                  label="Height"
+                  value={`${data.height} cm`}
+                />
+
+                <SummaryItem
+                  label="Weight"
+                  value={`${data.weight} kg`}
+                />
+
+                <SummaryItem
+                  label="BMI"
+                  value={`${bmi.toFixed(1)} (${bmiCategory})`}
+                />
+
+                <SummaryItem
+                  label="Blood Pressure"
+                  value={`${data.systolicBP}/${data.diastolicBP} mmHg`}
+                />
+
+                <SummaryItem
+                  label="Cholesterol"
+                  value={data.cholesterol.replaceAll('_', ' ')}
+                />
+
+                <SummaryItem
+                  label="Glucose"
+                  value={data.glucose.replaceAll('_', ' ')}
+                />
+
+                <SummaryItem
+                  label="Smoking"
+                  value={data.smoking ? 'Yes' : 'No'}
+                />
+
+                <SummaryItem
+                  label="Alcohol"
+                  value={data.alcohol ? 'Yes' : 'No'}
+                />
+
+                <SummaryItem
+                  label="Physical Activity"
+                  value={data.physicalActivity ? 'Active' : 'Inactive'}
+                />
+              </div>
+
+              <div className="flex items-center justify-between rounded-xl bg-background border border-border p-4">
+
+                <div>
+                  <p className="font-medium">
+                    Confirm Information
+                  </p>
+
+                  <p className="text-sm text-muted-foreground">
+                    I confirm the information above is accurate.
+                  </p>
+                </div>
+
+                <Switch
+                  checked={confirmed}
+                  onCheckedChange={setConfirmed}
+                />
+              </div>
+            </div>
           </div>
         )}
 
@@ -326,6 +464,7 @@ export function HealthForm({ onSubmit, isLoading }: HealthFormProps) {
               onClick={() => {
                 setData(INITIAL)
                 setErrors({})
+                setConfirmed(false)
               }}
               disabled={isLoading}
             >
@@ -340,7 +479,10 @@ export function HealthForm({ onSubmit, isLoading }: HealthFormProps) {
               <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
           ) : (
-            <Button onClick={handleSubmit} disabled={isLoading}>
+            <Button
+              onClick={handleSubmit}
+              disabled={isLoading || !confirmed}
+            >
               {isLoading ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -357,18 +499,43 @@ export function HealthForm({ onSubmit, isLoading }: HealthFormProps) {
   )
 }
 
+function SummaryItem({
+  label,
+  value,
+}: {
+  label: string
+  value: string
+}) {
+  return (
+    <div className="rounded-xl bg-background border border-border p-3">
+      <p className="text-xs text-muted-foreground">
+        {label}
+      </p>
+
+      <p className="font-semibold capitalize">
+        {value}
+      </p>
+    </div>
+  )
+}
+
 function ToggleRow({
-  label, desc, checked, onChange,
+  label, desc, tooltip, checked, onChange,
 }: {
   label: string
   desc: string
+  tooltip: string
   checked: boolean
   onChange: (v: boolean) => void
 }) {
   return (
     <div className="flex items-center justify-between p-4 rounded-lg border border-border hover:border-primary/30 transition-colors">
       <div>
-        <p className="font-medium">{label}</p>
+        <div className="flex items-center gap-2">
+          <p className="font-medium">{label}</p>
+
+          <InfoTooltip text={tooltip} />
+        </div>
         <p className="text-sm text-muted-foreground">{desc}</p>
       </div>
       <Switch checked={checked} onCheckedChange={onChange} />
