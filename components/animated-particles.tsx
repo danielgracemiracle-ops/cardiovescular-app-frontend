@@ -40,7 +40,7 @@ export function AnimatedParticles() {
           random: true,
 
           outModes: {
-            default: 'bounce',
+            default: 'bounce' as const,
           },
         },
 
